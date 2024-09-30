@@ -1,0 +1,44 @@
+# Este archivo ya empieza a incorporar Acciones
+# Las Acciones crean bloques reutilizables.
+# Diferentes Actions requieren diferentes parámetros
+
+
+name: Testing GitHub Actions II
+
+on: 
+ # Se pueden declarar triggers aplicables solo a ciertas
+ # ramas del repo. 
+  push: 
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  first_job: 
+    # Necesario poner sobre que tipo de servidor se va a ejecutar
+    runs-on:  ubuntu-latest
+    
+    # Luego se declaran los pasos (steps) que tendra cada job.
+    steps:
+      - name: First Step First Job # enfásis en donde si estan listados y donde no. 
+      # En 'run' se declaran los comandos a realizar en este step.
+        run: echo "Hello World"
+      
+      - name: Second Step First Job
+        run: touch hello.txt && echo "hello" >> hello.txt
+    
+  second_job:
+    runs-on: ubuntu-latest
+    steps:
+    # Aqui se importa una accion del GitHub Actions Marketplace
+    # Es importante notar que al importar una accion no se puede
+    # seguir con un 'run', este debe de ir en un nuevo step.
+      - name: Checkout
+        uses: actions/checkout@v4.2.0
+      - name: List Full Repo
+        run: ls -al && echo 'Todo Salio Bien!'
+            
+
+    
