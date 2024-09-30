@@ -1,0 +1,30 @@
+# Este archivo se basa en Eventos.
+
+# Cada Workflow debe de tener su nombre, cada job y cada step tambien.
+name:  Testing GitHub Actions
+
+on: [push] # Trigger para activar el workflow. Para mas eventos chechar aqui: https://tinyurl.com/github-actions-events
+
+jobs:
+  first_job: 
+    # Necesario poner sobre que tipo de servidor se va a ejecutar
+    runs-on:  ubuntu-latest
+    
+    # Luego se declaran los pasos (steps) que tendra cada job.
+    steps:
+      - name: First Step First Job # enfásis en donde si estan listados y donde no. 
+      # En 'run' se declaran los comandos a realizar en este step.
+        run: echo "Hello World"
+      
+      - name: Second Step First Job
+        run: touch hello.txt && echo "hello" >> hello.txt
+
+  second_job:
+    runs-on: ubuntu-latest
+    # 'needs' se declara para crear dependencia. 
+    # Por default los jobs se ejecutan de manera simultanea a menos que se indique lo contrario.
+    needs: first_job # se declara dependencia a que finalice otro job antes de ejecutar este.
+    
+    steps: 
+      - name: First Step Second Job
+        run: ls -al && echo 'Todo Salio Bien!'
